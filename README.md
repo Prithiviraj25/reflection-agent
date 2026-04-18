@@ -48,6 +48,9 @@ The key insight: **separating generation from reflection allows specialized prom
 **Why this design matters:**
 The state graph gives us automatic context threading—no manual prompt engineering to "include previous feedback." The framework handles it. This scales better than hardcoded loops.
 
+### Visual Architecture
+![Workflow Graph](graph.png)
+
 ---
 
 ## 🧩 Key Engineering Decisions
@@ -132,6 +135,20 @@ Messages accumulate in state. Each reflection becomes context for the next gener
 
 ### 4. **Deterministic Stopping**
 No risk of infinite loops. Stops after 3 iterations. Deterministic = predictable costs, predictable runtime. Trade-off: less intelligence in stopping criteria, but more reliability.
+
+---
+
+## 📊 LangSmith Tracing
+
+The system is fully observable via LangSmith. Here's how the agentic loop traces across iterations:
+
+**Trace 1 - Initial Generation & Reflection:**
+![LangSmith Trace 1](Langsmith_trace_1.png)
+
+**Trace 2 - Iterative Refinement:**
+![LangSmith Trace 2](Langsmith_trace_2.png)
+
+Each node in the trace shows the input prompt, model call, and output. This visibility enables debugging, cost tracking, and performance optimization across iterations.
 
 ---
 
